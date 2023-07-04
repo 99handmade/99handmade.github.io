@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ubuntu on 99% handmade</title>
+    <link>https://99handmade.github.io/tags/Ubuntu/</link>
+    <description>Recent content in Ubuntu on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 01 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/tags/Ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Backup MongoDB</title>
+      <link>https://99handmade.github.io/posts/backup-mongodb/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/posts/backup-mongodb/</guid>
+      <description>Introduction # MongoDB is deployed within a Docker container, and an automated backup task is scheduled to run. When the database is running in a container, you can choose to either use a temporary database container or an existing one for performing the backup. The decision between these options depends on personal preference. In this article, I have opted to use a temporary database container.
+Ubuntu Version
+lsb_release -a LSB Version: core-11.</description>
+    </item>
+    
+  </channel>
+</rss>
