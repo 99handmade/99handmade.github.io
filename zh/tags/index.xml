@@ -1,1 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tags on 99% handmade</title><link>https://99handmade.github.io/zh/tags/</link><description>Recent content in Tags on 99% handmade</description><generator>Hugo -- gohugo.io</generator><language>zh</language><atom:link href="https://99handmade.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 99% handmade</title>
+    <link>https://99handmade.github.io/zh/tags/</link>
+    <description>Recent content in Tags on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 01 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cron</title>
+      <link>https://99handmade.github.io/zh/tags/Cron/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/tags/Cron/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://99handmade.github.io/zh/tags/Docker/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/tags/Docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MongoDB</title>
+      <link>https://99handmade.github.io/zh/tags/MongoDB/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/tags/MongoDB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ubuntu</title>
+      <link>https://99handmade.github.io/zh/tags/Ubuntu/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/tags/Ubuntu/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

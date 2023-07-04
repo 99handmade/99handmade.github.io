@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on 99% handmade</title>
+    <link>https://99handmade.github.io/ru/posts/</link>
+    <description>Recent content in Blog on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Sat, 01 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/ru/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Backup MongoDB</title>
+      <link>https://99handmade.github.io/ru/posts/backup-mongodb/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/ru/posts/backup-mongodb/</guid>
+      <description>Problématique # System d&amp;rsquo;exploitation est Ubuntu MongoDB est déployé dans un conteneur Docker Une Cron tâche est planifiée pour exécuter le backup script Lorsque la base de données est exécutée dans un conteneur, normalment nous n&amp;rsquo;avons pas reinstaller le double MongoDB dans OS, à cette condition, nous avons le choix entre utiliser un conteneur de base de données temporaire ou le conteneur existant pour effectuer la sauvegarde. Le choix entre ces options dépend des préférences personnelles.</description>
+    </item>
+    
+  </channel>
+</rss>
