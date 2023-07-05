@@ -12,9 +12,7 @@
       <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
       
       <guid>https://99handmade.github.io/posts/backup-mongodb/</guid>
-      <description>Introduction # MongoDB is deployed within a Docker container, and an automated backup task is scheduled to run. When the database is running in a container, you can choose to either use a temporary database container or an existing one for performing the backup. The decision between these options depends on personal preference. In this article, I have opted to use a temporary database container.
-Ubuntu Version
-lsb_release -a LSB Version: core-11.</description>
+      <description>Introduction # Ubuntu MongoDB is deployed within a Docker container Cron task is used to run backup When the database is running in a container, basically we will not install again MongoDB in the system. We can choose to either use a temporary database container or an existing one for performing the backup. The decision between these options depends on personal preference. In this article, I have opted to use a temporary database container.</description>
     </item>
     
   </channel>

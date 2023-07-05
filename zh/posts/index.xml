@@ -13,7 +13,7 @@
       <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
       
       <guid>https://99handmade.github.io/zh/posts/backup-mongodb/</guid>
-      <description>简介 # MongoDB部署在Docker容器中, 定时任务用于自动备份. 由于数据库部署在容器中, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.
+      <description>简介 # Ubuntu操作系统 MongoDB部署在Docker容器中 备份任务通过Cron执行 由于数据库部署在容器中, 一般在操作系统中, 就不会二次安装MongoDB, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.
 Ubuntu版本
 lsb_release -a LSB Version: core-11.1.0ubuntu4-noarch:security-11.1.0ubuntu4-noarch Distributor ID: Ubuntu Description: Ubuntu 22.04.2 LTS Release: 22.04 Codename: jammy Bash版本
 bash --version GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu) Copyright (C) 2020 Free Software Foundation, Inc. License GPLv3+: GNU GPL version 3 or later &amp;lt;http://gnu.org/licenses/gpl.html&amp;gt; Docker版本
