@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tips on 99% handmade</title>
+    <link>https://99handmade.github.io/ru/categories/Tips/</link>
+    <description>Recent content in Tips on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Mon, 10 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/ru/categories/Tips/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Comment remettre un fichier à zéro octet</title>
+      <link>https://99handmade.github.io/ru/posts/clear-file/</link>
+      <pubDate>Mon, 10 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/ru/posts/clear-file/</guid>
+      <description> Aperçu # Parfois, il est nécessaire de réinitialiser un fichier à 0 octet sans le supprimer, par exemple, un fichier journal en cours d&amp;rsquo;utilisation.
+Méthodes # Utilisez la commande truncate avec le paramètre -s 0 pour spécifier une taille de 0 bytes.
+truncate -s 0 &amp;lt;nom du fichier&amp;gt; 使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件
+:&amp;gt; &amp;lt;nom du fichier&amp;gt; </description>
+    </item>
+    
+  </channel>
+</rss>

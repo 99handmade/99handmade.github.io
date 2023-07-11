@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 99% handmade</title>
+    <link>https://99handmade.github.io/zh/categories/</link>
+    <description>Recent content in Categories on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 10 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/zh/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tips</title>
+      <link>https://99handmade.github.io/zh/categories/Tips/</link>
+      <pubDate>Mon, 10 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/categories/Tips/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>运维</title>
+      <link>https://99handmade.github.io/zh/categories/%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/categories/%E8%BF%90%E7%BB%B4/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

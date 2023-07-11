@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="简介 # Ubuntu操作系统 MongoDB部署在Docker容器中 备份任务通过Cron执行 由于数据库部署在容器中, 一般在操作系统中, 就不会二次安装MongoDB, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.
+Ubuntu版本
+lsb_release -a LSB Version: core-11.1.0ubuntu4-noarch:security-11.1.0ubuntu4-noarch Distributor ID: Ubuntu Description: Ubuntu 22.04.2 LTS Release: 22.04 Codename: jammy Bash版本
+bash --version GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu) Copyright (C) 2020 Free Software Foundation, Inc. License GPLv3&#43;: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt; Docker版本
+Client: Docker Engine - Community Version: 24.0.1 API version: 1.43 Go version: go1.20.4 Git commit: 6802122 Built: Fri May 19 18:06:21 2023 OS/Arch: linux/amd64 Context: default Server: Docker Engine - Community Engine: Version: 24.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="备份 MongoDB" />
+<meta property="og:description" content="简介 # Ubuntu操作系统 MongoDB部署在Docker容器中 备份任务通过Cron执行 由于数据库部署在容器中, 一般在操作系统中, 就不会二次安装MongoDB, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.
+Ubuntu版本
+lsb_release -a LSB Version: core-11.1.0ubuntu4-noarch:security-11.1.0ubuntu4-noarch Distributor ID: Ubuntu Description: Ubuntu 22.04.2 LTS Release: 22.04 Codename: jammy Bash版本
+bash --version GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu) Copyright (C) 2020 Free Software Foundation, Inc. License GPLv3&#43;: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt; Docker版本
+Client: Docker Engine - Community Version: 24.0.1 API version: 1.43 Go version: go1.20.4 Git commit: 6802122 Built: Fri May 19 18:06:21 2023 OS/Arch: linux/amd64 Context: default Server: Docker Engine - Community Engine: Version: 24." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://99handmade.github.io/zh/posts/backup-mongodb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-01T00:00:00+00:00" />
+<title>备份 MongoDB | 99% handmade</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link rel="alternate" hreflang="en" href="https://99handmade.github.io/posts/backup-mongodb/" title="Backup MongoDB">
+  <link rel="alternate" hreflang="ru" href="https://99handmade.github.io/ru/posts/backup-mongodb/" title="Backup MongoDB">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.04007f7dcbec60fd28330540270186d005738c53f1739de8fba5423d6800a5cd.js" integrity="sha256-BAB/fcvsYP0oMwVAJwGG0AVzjFPxc53o&#43;6VCPWgApc0=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/zh/"><span>99% handmade</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+  
+
+  
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        中文
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://99handmade.github.io/posts/backup-mongodb/">
+          English
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://99handmade.github.io/ru/posts/backup-mongodb/">
+          Français
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/zh/posts/"  >
+        博客
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/jiehao-yuan-b8827b49"  target="_blank" rel="noopener">
+        LinkedIn
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>备份 MongoDB</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#步骤">步骤</a>
+          <ul>
+            <li><a href="#创建备份脚本">创建备份脚本</a></li>
+            <li><a href="#创建清理脚本">创建清理脚本</a></li>
+            <li><a href="#修改脚本权限">修改脚本权限</a></li>
+            <li><a href="#创建cron文件">创建Cron文件</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/zh/posts/backup-mongodb/">备份 MongoDB</a>
+  </h1>
+  
+  <h5>July 1, 2023</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/zh/categories/%E8%BF%90%E7%BB%B4/">运维</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/zh/tags/Ubuntu/">Ubuntu</a>, 
+      <a href="/zh/tags/Cron/">Cron</a>, 
+      <a href="/zh/tags/MongoDB/">MongoDB</a>, 
+      <a href="/zh/tags/Docker/">Docker</a>
+  </div>
+  
+
+
+
+<h2 id="简介">
+  简介
+  <a class="anchor" href="#%e7%ae%80%e4%bb%8b">#</a>
+</h2>
+<ul>
+<li>Ubuntu操作系统</li>
+<li>MongoDB部署在Docker容器中</li>
+<li>备份任务通过Cron执行</li>
+</ul>
+<p>由于数据库部署在容器中, 一般在操作系统中, 就不会二次安装MongoDB, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.</p>
+<p>Ubuntu版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>lsb_release -a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LSB Version: core-11.1.0ubuntu4-noarch:security-11.1.0ubuntu4-noarch
+</span></span><span style="display:flex;"><span>Distributor ID: Ubuntu
+</span></span><span style="display:flex;"><span>Description: Ubuntu 22.04.2 LTS
+</span></span><span style="display:flex;"><span>Release: 22.04
+</span></span><span style="display:flex;"><span>Codename: jammy
+</span></span></code></pre></div><p>Bash版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>bash --version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu)
+</span></span><span style="display:flex;"><span>Copyright (C) 2020 Free Software Foundation, Inc.
+</span></span><span style="display:flex;"><span>License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+</span></span></code></pre></div><p>Docker版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>Client: Docker Engine - Community
+</span></span><span style="display:flex;"><span> Version:           24.0.1
+</span></span><span style="display:flex;"><span> API version:       1.43
+</span></span><span style="display:flex;"><span> Go version:        go1.20.4
+</span></span><span style="display:flex;"><span> Git commit:        6802122
+</span></span><span style="display:flex;"><span> Built:             Fri May 19 18:06:21 2023
+</span></span><span style="display:flex;"><span> OS/Arch:           linux/amd64
+</span></span><span style="display:flex;"><span> Context:           default
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Server: Docker Engine - Community
+</span></span><span style="display:flex;"><span> Engine:
+</span></span><span style="display:flex;"><span>  Version:          24.0.1
+</span></span><span style="display:flex;"><span>  API version:      1.43 (minimum version 1.12)
+</span></span><span style="display:flex;"><span>  Go version:       go1.20.4
+</span></span><span style="display:flex;"><span>  Git commit:       463850e
+</span></span><span style="display:flex;"><span>  Built:            Fri May 19 18:06:21 2023
+</span></span><span style="display:flex;"><span>  OS/Arch:          linux/amd64
+</span></span><span style="display:flex;"><span>  Experimental:     false
+</span></span><span style="display:flex;"><span> containerd:
+</span></span><span style="display:flex;"><span>  Version:          1.6.21
+</span></span><span style="display:flex;"><span>  GitCommit:        3dce8eb055cbb6872793272b4f20ed16117344f8
+</span></span><span style="display:flex;"><span> runc:
+</span></span><span style="display:flex;"><span>  Version:          1.1.7
+</span></span><span style="display:flex;"><span>  GitCommit:        v1.1.7-0-g860f061
+</span></span><span style="display:flex;"><span> docker-init:
+</span></span><span style="display:flex;"><span>  Version:          0.19.0
+</span></span><span style="display:flex;"><span>  GitCommit:        de40ad0
+</span></span></code></pre></div><p>MongoDB版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>MongoDB shell version v4.4.19
+</span></span><span style="display:flex;"><span>MongoDB server version: 4.4.19
+</span></span></code></pre></div><h2 id="步骤">
+  步骤
+  <a class="anchor" href="#%e6%ad%a5%e9%aa%a4">#</a>
+</h2>
+<h3 id="创建备份脚本">
+  创建备份脚本
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e5%a4%87%e4%bb%bd%e8%84%9a%e6%9c%ac">#</a>
+</h3>
+<p>在这个实例脚本中, MongoDB有一个以上的数据库, 每个数据库都有各自的用户和密码保护. 备份按星期号, 日期组织在文件夹中, 备份在Docker容器中进行, 通过volume直接写在本机硬盘. 需要指出的是, 为了实现在另一个数据库容器中备份, 新容器需要连接到现有的Docker网络中.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># display environment information</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d %H:%M:%S&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> - Starting the script...&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current Date and Time: </span><span style="color:#66d9ef">$(</span>date<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current User: </span><span style="color:#66d9ef">$(</span>whoami<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current Directory: </span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Login Shell: </span>$SHELL<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># display system information</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Operating System: </span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Hostname: </span><span style="color:#66d9ef">$(</span>hostname<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Kernel Version: </span><span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Processor Architecture: </span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># def</span>
+</span></span><span style="display:flex;"><span>DATE<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +%d%m%Y_%H%M<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>WEEK<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +%W<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>BACKUP_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/data/db_backup/</span>$WEEK<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>BACKUP_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$DATE<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># directory permission</span>
+</span></span><span style="display:flex;"><span>mkdir -p $BACKUP_DIR/$BACKUP_NAME
+</span></span><span style="display:flex;"><span>chown -R 999:999 $BACKUP_DIR/$BACKUP_NAME
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># define database credentials</span>
+</span></span><span style="display:flex;"><span>declare -A credentials<span style="color:#f92672">=(</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;db_name_1&#34;</span><span style="color:#f92672">]=</span><span style="color:#e6db74">&#34;username_1:password_1&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;db_name_2&#34;</span><span style="color:#f92672">]=</span><span style="color:#e6db74">&#34;username_2:password_2&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># run backup</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> db_name in <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>!credentials[@]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; start to backup </span>$db_name<span style="color:#e6db74"> &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>  IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;:&#39;</span> read -r username password <span style="color:#f92672">&lt;&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>credentials[$db_name]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  docker run -u <span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>:<span style="color:#66d9ef">$(</span>id -g<span style="color:#66d9ef">)</span> --rm --network mongodb_mongo_net -v $BACKUP_DIR/$BACKUP_NAME:/workdir -w /workdir <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    mongo:4.4.19 mongodump --out /workdir <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --db<span style="color:#f92672">=</span>$db_name --username $username --password $password --host<span style="color:#f92672">=</span>bewellconnect-mongodb --authenticationDatabase<span style="color:#f92672">=</span>$db_name
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; end to backup </span>$db_name<span style="color:#e6db74"> &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&#34;</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d %H:%M:%S&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> - Script execution complete.&#34;</span>
+</span></span></code></pre></div><h3 id="创建清理脚本">
+  创建清理脚本
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e6%b8%85%e7%90%86%e8%84%9a%e6%9c%ac">#</a>
+</h3>
+<p>只保留一周的备份, 其他的都删除.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># display environment information</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d %H:%M:%S&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> - Starting the script...&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current Date and Time: </span><span style="color:#66d9ef">$(</span>date<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current User: </span><span style="color:#66d9ef">$(</span>whoami<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Current Directory: </span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Login Shell: </span>$SHELL<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># display system information</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Operating System: </span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Hostname: </span><span style="color:#66d9ef">$(</span>hostname<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Kernel Version: </span><span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Processor Architecture: </span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#def</span>
+</span></span><span style="display:flex;"><span>BACKUP_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/data/db_backup&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get current week number</span>
+</span></span><span style="display:flex;"><span>current_week<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +%W<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># run cleanup</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> dir in <span style="color:#e6db74">&#34;</span>$BACKUP_DIR<span style="color:#e6db74">&#34;</span>/*/; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  dir_name<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>basename <span style="color:#e6db74">&#34;</span>$dir<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>dir_name<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>current_week<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;delete backup: </span>$dir<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    rm -rf <span style="color:#e6db74">&#34;</span>$dir<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d %H:%M:%S&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> - Script execution complete.&#34;</span>
+</span></span></code></pre></div><h3 id="修改脚本权限">
+  修改脚本权限
+  <a class="anchor" href="#%e4%bf%ae%e6%94%b9%e8%84%9a%e6%9c%ac%e6%9d%83%e9%99%90">#</a>
+</h3>
+<p>定时任务以创建定时任务的用户身份执行脚本, 这个权限可以根据具体情况而定, 这里我们给脚本所有用户的执行权限.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>chmod +x script.sh
+</span></span></code></pre></div><h3 id="创建cron文件">
+  创建Cron文件
+  <a class="anchor" href="#%e5%88%9b%e5%bb%bacron%e6%96%87%e4%bb%b6">#</a>
+</h3>
+<p>有很多可以放Cron配置的地方, 这里我们创建一个文件名为db的文件  放到<code>/etc/cron.d/</code>文件夹里, 脚本执行的标准输出流和错误流, 重定向到日志文件. 每天凌晨三点执行一次备份, 每周日凌晨四点执行一次清理, 清除一周以前的备份.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#ae81ff">00</span> <span style="color:#ae81ff">03</span> * * * root /bin/bash /opt/devops/mongodb/crons/backup_mongodb.sh &gt;&gt; /opt/devops/mongodb/crons/db_backup.log 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">00</span> <span style="color:#ae81ff">04</span> * * <span style="color:#ae81ff">7</span> root /bin/bash /opt/devops/mongodb/crons/cleanup_mongodb.sh &gt;&gt; /opt/devops/mongodb/crons/db_cleanup.log 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "githubpages-6" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#步骤">步骤</a>
+          <ul>
+            <li><a href="#创建备份脚本">创建备份脚本</a></li>
+            <li><a href="#创建清理脚本">创建清理脚本</a></li>
+            <li><a href="#修改脚本权限">修改脚本权限</a></li>
+            <li><a href="#创建cron文件">创建Cron文件</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

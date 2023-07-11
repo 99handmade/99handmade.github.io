@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on 99% handmade</title>
+    <link>https://99handmade.github.io/zh/tags/Shell/</link>
+    <description>Recent content in Shell on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 10 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://99handmade.github.io/zh/tags/Shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速重制文件为0字节的几种方法</title>
+      <link>https://99handmade.github.io/zh/posts/clear-file/</link>
+      <pubDate>Mon, 10 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/posts/clear-file/</guid>
+      <description> 简介 # 有些时候, 你需要把一个文件重制为0字节, 但是又不能删除它, 比如一个正在使用的日志文件.
+几种方法 # 使用截断命令truncate, 参数-s 0指定大小为0字节
+truncate -s 0 &amp;lt;filename&amp;gt; 使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件
+:&amp;gt; &amp;lt;filename&amp;gt; </description>
+    </item>
+    
+  </channel>
+</rss>

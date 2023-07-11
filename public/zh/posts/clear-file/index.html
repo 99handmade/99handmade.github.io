@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" 简介 # 有些时候, 你需要把一个文件重制为0字节, 但是又不能删除它, 比如一个正在使用的日志文件.
+几种方法 # 使用截断命令truncate, 参数-s 0指定大小为0字节
+truncate -s 0 &lt;filename&gt; 使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件
+:&gt; &lt;filename&gt; ">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="快速重制文件为0字节的几种方法" />
+<meta property="og:description" content=" 简介 # 有些时候, 你需要把一个文件重制为0字节, 但是又不能删除它, 比如一个正在使用的日志文件.
+几种方法 # 使用截断命令truncate, 参数-s 0指定大小为0字节
+truncate -s 0 &lt;filename&gt; 使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件
+:&gt; &lt;filename&gt; " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://99handmade.github.io/zh/posts/clear-file/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-10T00:00:00+00:00" />
+<title>快速重制文件为0字节的几种方法 | 99% handmade</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link rel="alternate" hreflang="en" href="https://99handmade.github.io/posts/clear-file/" title="Several methods to quickly reset a file to zero bytes">
+  <link rel="alternate" hreflang="ru" href="https://99handmade.github.io/ru/posts/clear-file/" title="Comment remettre un fichier à zéro octet">
+<link rel="stylesheet" href="/book.min.f8de3645fe00591b41524aee174e19edd98a22255a2930a0cdc82a94835ba387.css" integrity="sha256-&#43;N42Rf4AWRtBUkruF04Z7dmKIiVaKTCgzcgqlINbo4c=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/zh.search.min.04007f7dcbec60fd28330540270186d005738c53f1739de8fba5423d6800a5cd.js" integrity="sha256-BAB/fcvsYP0oMwVAJwGG0AVzjFPxc53o&#43;6VCPWgApc0=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/zh/"><span>99% handmade</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="搜索" aria-label="搜索" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+  
+
+  
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        中文
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://99handmade.github.io/posts/clear-file/">
+          English
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://99handmade.github.io/ru/posts/clear-file/">
+          Français
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/zh/posts/"  >
+        博客
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/jiehao-yuan-b8827b49"  target="_blank" rel="noopener">
+        LinkedIn
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>快速重制文件为0字节的几种方法</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#几种方法">几种方法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/zh/posts/clear-file/">快速重制文件为0字节的几种方法</a>
+  </h1>
+  
+  <h5>July 10, 2023</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/zh/categories/Tips/">Tips</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/zh/tags/Shell/">Shell</a>
+  </div>
+  
+
+
+
+<h2 id="简介">
+  简介
+  <a class="anchor" href="#%e7%ae%80%e4%bb%8b">#</a>
+</h2>
+<p>有些时候, 你需要把一个文件重制为0字节, 但是又不能删除它, 比如一个正在使用的日志文件.</p>
+<h2 id="几种方法">
+  几种方法
+  <a class="anchor" href="#%e5%87%a0%e7%a7%8d%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<p>使用截断命令<code>truncate</code>, 参数<code>-s 0</code>指定大小为0字节</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>truncate -s <span style="color:#ae81ff">0</span> &lt;filename&gt;
+</span></span></code></pre></div><p>使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>:&gt; &lt;filename&gt;
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "githubpages-6" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#几种方法">几种方法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

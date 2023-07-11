@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>介绍 on 99% handmade</title>
+    <link>https://99handmade.github.io/zh/</link>
+    <description>Recent content in 介绍 on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://99handmade.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速重制文件为0字节的几种方法</title>
+      <link>https://99handmade.github.io/zh/posts/clear-file/</link>
+      <pubDate>Mon, 10 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/posts/clear-file/</guid>
+      <description> 简介 # 有些时候, 你需要把一个文件重制为0字节, 但是又不能删除它, 比如一个正在使用的日志文件.
+几种方法 # 使用截断命令truncate, 参数-s 0指定大小为0字节
+truncate -s 0 &amp;lt;filename&amp;gt; 使用占位符和重定向操作符, 就是把一个空操作符覆盖写入文件
+:&amp;gt; &amp;lt;filename&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>备份 MongoDB</title>
+      <link>https://99handmade.github.io/zh/posts/backup-mongodb/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/zh/posts/backup-mongodb/</guid>
+      <description>简介 # Ubuntu操作系统 MongoDB部署在Docker容器中 备份任务通过Cron执行 由于数据库部署在容器中, 一般在操作系统中, 就不会二次安装MongoDB, 我们可以选择单独运行临时的数据库容器, 也可以直接使用现有的数据库容器, 具体的选择是仁者见仁的问题. 个人而言, 我选择了前者.
+Ubuntu版本
+lsb_release -a LSB Version: core-11.1.0ubuntu4-noarch:security-11.1.0ubuntu4-noarch Distributor ID: Ubuntu Description: Ubuntu 22.04.2 LTS Release: 22.04 Codename: jammy Bash版本
+bash --version GNU bash, version 5.1.16(1)-release (x86_64-pc-linux-gnu) Copyright (C) 2020 Free Software Foundation, Inc. License GPLv3+: GNU GPL version 3 or later &amp;lt;http://gnu.org/licenses/gpl.html&amp;gt; Docker版本
+Client: Docker Engine - Community Version: 24.0.1 API version: 1.43 Go version: go1.20.4 Git commit: 6802122 Built: Fri May 19 18:06:21 2023 OS/Arch: linux/amd64 Context: default Server: Docker Engine - Community Engine: Version: 24.</description>
+    </item>
+    
+  </channel>
+</rss>

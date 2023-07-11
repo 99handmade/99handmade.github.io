@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introduction on 99% handmade</title>
+    <link>https://99handmade.github.io/</link>
+    <description>Recent content in Introduction on 99% handmade</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://99handmade.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Several methods to quickly reset a file to zero bytes</title>
+      <link>https://99handmade.github.io/posts/clear-file/</link>
+      <pubDate>Mon, 10 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/posts/clear-file/</guid>
+      <description> Overview # Sometimes, you may need to reset a file to zero bytes without deleting it, such as in the case of a log file that is actively being used.
+Methods # Use the truncate command with the -s 0 option, which specifies the size as zero bytes.
+truncate -s 0 &amp;lt;filename&amp;gt; Utilisez un espace réservé et un opérateur de redirection pour vider un fichier en l&amp;rsquo;écrasant.
+:&amp;gt; &amp;lt;filename&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title>Backup MongoDB</title>
+      <link>https://99handmade.github.io/posts/backup-mongodb/</link>
+      <pubDate>Sat, 01 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://99handmade.github.io/posts/backup-mongodb/</guid>
+      <description>Introduction # Ubuntu MongoDB is deployed within a Docker container Cron task is used to run backup When the database is running in a container, basically we will not install again MongoDB in the system. We can choose to either use a temporary database container or an existing one for performing the backup. The decision between these options depends on personal preference. In this article, I have opted to use a temporary database container.</description>
+    </item>
+    
+  </channel>
+</rss>
